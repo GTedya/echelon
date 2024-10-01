@@ -14,6 +14,8 @@ import (
 
 const requestTimeout = 3 * time.Second
 
+var filePermission = 0600
+
 func DownloadThumbnailsSync(client pb.ThumbnailServiceClient, videoURLs []string) {
 	for _, videoURL := range videoURLs {
 		if err := downloadThumbnail(client, videoURL); err != nil {
@@ -55,7 +57,7 @@ func downloadThumbnail(client pb.ThumbnailServiceClient, videoURL string) error 
 
 	// сохраняю в память, для наглядности)
 	fileName := fmt.Sprintf("%s_thumbnail.jpg", videoID)
-	if err = os.WriteFile(fileName, resp.ThumbnailData, 0644); err != nil {
+	if err = os.WriteFile(fileName, resp.ThumbnailData, os.FileMode(filePermission)); err != nil {
 		return fmt.Errorf("save thumbnail: %w", err)
 	}
 

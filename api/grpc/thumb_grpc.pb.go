@@ -4,7 +4,7 @@
 // - protoc             v5.27.1
 // source: api/grpc/thumb.proto
 
-package thumbnail_grpc
+package thumbnailapi
 
 import (
 	context "context"

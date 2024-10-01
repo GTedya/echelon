@@ -1,4 +1,4 @@
-package thumbnail_grpc
+package thumbnailapi
 
 import (
 	"context"
@@ -29,7 +29,7 @@ func (s *ThumbnailService) GetThumbnail(ctx context.Context, req *ThumbnailReque
 		return &ThumbnailResponse{ThumbnailData: thumbnail}, nil
 	}
 
-	thumbnail, err = service.FetchThumbnail(ctx, videoID)
+	thumbnail, err = service.FetchThumbnail(videoID)
 	if err != nil {
 		return nil, fmt.Errorf("fetch thumbnail: %w", err)
 	}

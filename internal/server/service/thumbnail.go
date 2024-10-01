@@ -7,12 +7,9 @@ import (
 	"io"
 	"net/http"
 	"net/url"
-	"time"
 
 	"github.com/echelon/internal/server/repository"
 )
-
-const requestTimeout = 3 * time.Second
 
 type CacheThumbnailService struct {
 	repo repository.ThumbNailRepository
@@ -37,9 +34,7 @@ func (s *CacheThumbnailService) SaveThumbnail(ctx context.Context, videoID strin
 	return nil
 }
 
-func FetchThumbnail(ctx context.Context, videoURL string) (thumbnail []byte, err error) {
-	ctx, cancel := context.WithTimeout(ctx, requestTimeout)
-	defer cancel()
+func FetchThumbnail(videoURL string) (thumbnail []byte, err error) {
 	res, err := http.Get(fmt.Sprintf("https://img.youtube.com/vi/%s/hqdefault.jpg", videoURL))
 	defer func() {
 		err = res.Body.Close()

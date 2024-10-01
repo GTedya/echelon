@@ -2,7 +2,7 @@ syntax="proto3";
 
 package api;
 
-option go_package = "github.com/echelon/thumbnail_grpc";
+option go_package = "github.com/echelon/thumbnailapi";
 
 service ThumbnailService {
   rpc GetThumbnail (ThumbnailRequest) returns (ThumbnailResponse);

@@ -1,4 +1,4 @@
-package sqliteRepo
+package sqlite
 
 import (
 	"context"
@@ -80,7 +80,7 @@ func uploadMigrations(db *sql.DB) error {
 	}
 
 	m, err := migrate.NewWithDatabaseInstance(
-		"file://internal/server/repository/sqliteRepo/migrations",
+		"file://internal/server/repository/sqlite/migrations",
 		"sqlite3", driver)
 	if err != nil {
 		return fmt.Errorf("migrate instance: %w", err)

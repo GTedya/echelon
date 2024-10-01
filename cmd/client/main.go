@@ -2,9 +2,9 @@ package main
 
 import (
 	"flag"
-	"github.com/echelon/config"
 
 	pb "github.com/echelon/api/grpc"
+	"github.com/echelon/config"
 	"github.com/echelon/internal/client/service"
 	z "github.com/echelon/pkg/logger"
 

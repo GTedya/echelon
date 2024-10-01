@@ -1,12 +1,13 @@
-package sqliteRepo
+package sqlite
 
 import (
 	"context"
 	"database/sql"
 	"errors"
+	"testing"
+
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/stretchr/testify/require"
-	"testing"
 )
 
 func TestLiteRepo_GetThumbnail(t *testing.T) {

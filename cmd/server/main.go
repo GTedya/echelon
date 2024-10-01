@@ -2,16 +2,16 @@ package main
 
 import (
 	"fmt"
+	"net"
+
 	pb "github.com/echelon/api/grpc"
 	"github.com/echelon/config"
 	"github.com/echelon/internal/server/repository"
-	"github.com/echelon/internal/server/repository/sqliteRepo"
+	"github.com/echelon/internal/server/repository/sqlite"
 	"github.com/echelon/internal/server/service"
 	z "github.com/echelon/pkg/logger"
 
 	"google.golang.org/grpc"
-
-	"net"
 )
 
 func main() {
@@ -36,8 +36,8 @@ func main() {
 	}
 }
 
-func initDB(dbPath string) (*sqliteRepo.LiteRepo, error) {
-	repo := &sqliteRepo.LiteRepo{}
+func initDB(dbPath string) (*sqlite.LiteRepo, error) {
+	repo := &sqlite.LiteRepo{}
 	if err := repo.Open(dbPath); err != nil {
 		return nil, fmt.Errorf("open db: %w", err)
 	}

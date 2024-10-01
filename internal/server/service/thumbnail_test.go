@@ -5,13 +5,13 @@ import (
 	"context"
 	"database/sql"
 	"errors"
-	"github.com/DATA-DOG/go-sqlmock"
-	"github.com/echelon/internal/server/repository/sqliteRepo"
 	"io"
 	"net/http"
 	"testing"
-	"time"
 
+	"github.com/echelon/internal/server/repository/sqlite"
+
+	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/stretchr/testify/require"
 )
 
@@ -19,7 +19,7 @@ func TestCacheThumbnailService_GetCache(t *testing.T) {
 	db, mock, err := sqlmock.New()
 	require.NoError(t, err)
 
-	repo := &sqliteRepo.LiteRepo{DB: db}
+	repo := &sqlite.LiteRepo{DB: db}
 	cacheService := NewCacheThumbnailService(repo)
 
 	ctx := context.Background()
@@ -88,7 +88,7 @@ func TestCacheThumbnailService_SaveThumbnail(t *testing.T) {
 	db, mock, err := sqlmock.New()
 	require.NoError(t, err)
 
-	repo := &sqliteRepo.LiteRepo{DB: db}
+	repo := &sqlite.LiteRepo{DB: db}
 	cacheService := NewCacheThumbnailService(repo)
 
 	ctx := context.Background()
@@ -153,25 +153,23 @@ func TestFetchThumbnail(t *testing.T) {
 		expectedError error
 	}{
 		{
-			name:          "successful fetch",
-			videoID:       "sampleVideoID",
-			httpResponse:  &http.Response{StatusCode: 200, Body: io.NopCloser(bytes.NewReader([]byte("thumbnailData")))},
+			name:    "successful fetch",
+			videoID: "sampleVideoID",
+			httpResponse: &http.Response{StatusCode: http.StatusOK,
+				Body: io.NopCloser(bytes.NewReader([]byte("thumbnailData")))},
 			expectedError: nil,
 		},
 		{
 			name:          "error during fetch",
 			videoID:       "sampleVideoID",
-			httpResponse:  &http.Response{StatusCode: 500},
+			httpResponse:  &http.Response{StatusCode: http.StatusInternalServerError},
 			expectedError: errors.New("get request: 500 Internal Server Error"),
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
-			defer cancel()
-
-			thumbnail, err := FetchThumbnail(ctx, tt.videoID)
+			thumbnail, err := FetchThumbnail(tt.videoID)
 			require.NoError(t, err)
 			require.NotZero(t, thumbnail)
 		})
