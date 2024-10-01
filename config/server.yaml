@@ -1,0 +1,2 @@
+grpc_port: ":50051"
+database_path: "/Users/gtedya/echelon/thumbnail"
