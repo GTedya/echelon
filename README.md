@@ -8,9 +8,8 @@
 Примеры файлов находятся в `config/*.yaml`:
 
    ```yaml
-   server:
-     grpcPort: ":50051"
-   dbPath: "path_to_your_database.db"
+  grpcPort: ":50051"
+  dbPath: "path_to_your_database.db"
    ```
 
 ## Запуск
